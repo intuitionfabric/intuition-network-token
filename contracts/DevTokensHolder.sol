@@ -43,7 +43,7 @@ pragma solidity ^0.4.11;
 
 
 import "./MiniMeToken.sol";
-import "./StatusContribution.sol";
+import "./IntuitionContribution.sol";
 import "./SafeMath.sol";
 import "./ERC20Token.sol";
 
@@ -52,19 +52,19 @@ contract DevTokensHolder is Owned {
     using SafeMath for uint256;
 
     uint256 collectedTokens;
-    StatusContribution contribution;
-    MiniMeToken snt;
+    IntuitionContribution contribution;
+    MiniMeToken intoken;
 
-    function DevTokensHolder(address _owner, address _contribution, address _snt) {
+    function DevTokensHolder(address _owner, address _contribution, address _int) {
         owner = _owner;
-        contribution = StatusContribution(_contribution);
-        snt = MiniMeToken(_snt);
+        contribution = IntuitionContribution(_contribution);
+        intoken = MiniMeToken(_int);
     }
 
 
     /// @notice The Dev (Owner) will call this method to extract the tokens
     function collectTokens() public onlyOwner {
-        uint256 balance = snt.balanceOf(address(this));
+        uint256 balance = intoken.balanceOf(address(this));
         uint256 total = collectedTokens.add(balance);
 
         uint256 finalizedTime = contribution.finalizedTime();
@@ -80,7 +80,7 @@ contract DevTokensHolder is Owned {
         }
 
         collectedTokens = collectedTokens.add(canExtract);
-        assert(snt.transfer(owner, canExtract));
+        assert(intoken.transfer(owner, canExtract));
 
         TokensWithdrawn(owner, canExtract);
     }
@@ -103,7 +103,7 @@ contract DevTokensHolder is Owned {
     /// @param _token The address of the token contract that you want to recover
     ///  set to 0 in case you want to extract ether.
     function claimTokens(address _token) public onlyOwner {
-        require(_token != address(snt));
+        require(_token != address(intoken));
         if (_token == 0x0) {
             owner.transfer(this.balance);
             return;

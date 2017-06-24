@@ -22,8 +22,8 @@ pragma solidity ^0.4.11;
 /// @dev This contract will be the INT controller during the contribution period.
 ///  This contract will determine the rules during this period.
 ///  Final users will generally not interact directly with this contract. ETH will
-///  be sent to the SNT token contract. The ETH is sent to this contract and from here,
-///  ETH is sent to the contribution walled and SNTs are mined according to the defined
+///  be sent to the INT token contract. The ETH is sent to this contract and from here,
+///  ETH is sent to the contribution walled and INTs are mined according to the defined
 ///  rules.
 
 
@@ -97,7 +97,7 @@ contract IntuitionContribution is Owned, TokenController {
     /// @notice This method should be called by the owner before the contribution
     ///  period starts This initializes most of the parameters
     /// @param _int Address of the INT token contract
-    /// @param _intController Token controller for the SNT that will be transferred after
+    /// @param _intController Token controller for the INT that will be transferred after
     ///  the contribution finalizes.
     /// @param _startBlock Block when the contribution period starts
     /// @param _endBlock The last block that the contribution period is active
@@ -136,7 +136,7 @@ contract IntuitionContribution is Owned, TokenController {
         require(INT.decimals() == 18);  // Same amount of decimals as ETH
 
         require(_intController != 0x0);
-        sntController = _intController;
+        intController = _intController;
 
         require(_startBlock >= getBlockNumber());
         require(_startBlock < _endBlock);
@@ -190,10 +190,10 @@ contract IntuitionContribution is Owned, TokenController {
     // MiniMe Controller functions
     //////////
 
-    /// @notice This method will generally be called by the SNT token contract to
-    ///  acquire INTs. Or directly from third parties that want to acquire SNTs in
+    /// @notice This method will generally be called by the INT token contract to
+    ///  acquire INTs. Or directly from third parties that want to acquire INTs in
     ///  behalf of a token holder.
-    /// @param _th INT holder where the SNTs will be minted.
+    /// @param _th INT holder where the INTs will be minted.
     function proxyPayment(address _th) public payable notPaused initialized contributionOpen returns (bool) {
         require(_th != 0x0);
         if (guaranteedBuyersLimit[_th] > 0) {
@@ -344,7 +344,7 @@ contract IntuitionContribution is Owned, TokenController {
         uint256 percentageToReserve = percent(29);
 
 
-        // SNT.totalSupply() -> Tokens minted during the contribution
+        // INT.totalSupply() -> Tokens minted during the contribution
         //  totalTokens  -> Total tokens that should be after the allocation
         //                   of devTokens, igtTokens and reserve
         //  percentageToContributors -> Which percentage should go to the
@@ -394,7 +394,7 @@ contract IntuitionContribution is Owned, TokenController {
             destTokensDevs,
             totalTokens.mul(percentageToDevs).div(percent(100))));
 
-        SNT.changeController(sntController);
+        INT.changeController(sntController);
 
         Finalized();
     }

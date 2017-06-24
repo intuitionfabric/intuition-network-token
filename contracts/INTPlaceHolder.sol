@@ -49,12 +49,12 @@ contract INTPlaceHolder is TokenController, Owned {
     ///  only this exchanger will be able to move tokens)
     function INTPlaceHolder(address _owner, address _int, address _contribution, address _igtExchanger) {
         owner = _owner;
-        intoken = MiniMeToken(_snt);
+        intoken = MiniMeToken(_int);
         contribution = IntuitionContribution(_contribution);
         igtExchanger = _igtExchanger;
     }
 
-    /// @notice The owner of this contract can change the controller of the SNT token
+    /// @notice The owner of this contract can change the controller of the INT token
     ///  Please, be sure that the owner is a trusted agent or 0x0 address.
     /// @param _newController The address of the new controller
 

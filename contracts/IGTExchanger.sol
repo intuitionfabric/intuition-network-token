@@ -20,7 +20,7 @@ pragma solidity ^0.4.11;
 /// @title Genesis Token Exchanger Contract
 /// @author Jordi Baylina
 /// @author Carlos Perez
-/// @dev This contract will be used to distribute SNT between IGT holders.
+/// @dev This contract will be used to distribute INT between IGT holders.
 ///  IGT token is not transferable, and we just keep an accounting between all tokens
 ///  deposited and the tokens collected.
 ///  The controllerShip of IGT should be transferred to this contract before the
@@ -106,7 +106,7 @@ contract IGTExchanger is TokenController, Owned {
     /// @param _token The address of the token contract that you want to recover
     ///  set to 0 in case you want to extract ether.
     function claimTokens(address _token) public onlyOwner {
-        require(_token != address(snt));
+        require(_token != address(intoken));
         if (_token == 0x0) {
             owner.transfer(this.balance);
             return;
