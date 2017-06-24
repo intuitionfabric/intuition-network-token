@@ -11,7 +11,7 @@ import "./MiniMeToken.sol";
 
 contract INT is MiniMeToken {
     // @dev INT constructor just parametrizes the MiniMeIrrevocableVestedToken constructor
-    function SNT(address _tokenFactory)
+    function INT(address _tokenFactory)
             MiniMeToken(
                 _tokenFactory,
                 0x0,                     // no parent token

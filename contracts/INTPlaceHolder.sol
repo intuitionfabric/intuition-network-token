@@ -19,9 +19,9 @@ pragma solidity ^0.4.11;
 
 /// @title INTPlaceholder Contract
 /// @author Jordi Baylina
-/// @dev The INTPlaceholder contract will take control over the SNT after the contribution
+/// @dev The INTPlaceholder contract will take control over the INT after the contribution
 ///  is finalized and before the Status Network is deployed.
-///  The contract allows for SNT transfers and transferFrom and implements the
+///  The contract allows for INT transfers and transferFrom and implements the
 ///  logic for transferring control of the token to the network when the offering
 ///  asks it to do so.
 
