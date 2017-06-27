@@ -30,7 +30,7 @@ pragma solidity ^0.4.11;
 import "./MiniMeToken.sol";
 import "./SafeMath.sol";
 import "./Owned.sol";
-import "./StatusContribution.sol";
+import "./IntuitionContribution.sol";
 import "./ERC20Token.sol";
 
 contract IGTExchanger is TokenController, Owned {
@@ -56,12 +56,12 @@ contract IGTExchanger is TokenController, Owned {
         require(finalizedBlock != 0);
         require(getBlockNumber() > finalizedBlock);
 
-        uint256 total = totalCollected.add(int.balanceOf(address(this)));
+        uint256 total = totalCollected.add(intoken.balanceOf(address(this)));
 
         uint256 balance = intoken.balanceOfAt(msg.sender, finalizedBlock);
 
         // First calculate how much correspond to him
-        uint256 amount = total.mul(balance).div(int.totalSupplyAt(finalizedBlock));
+        uint256 amount = total.mul(balance).div(intoken.totalSupplyAt(finalizedBlock));
 
         // And then subtract the amount already collected
         amount = amount.sub(collected[msg.sender]);
@@ -71,7 +71,7 @@ contract IGTExchanger is TokenController, Owned {
         totalCollected = totalCollected.add(amount);
         collected[msg.sender] = collected[msg.sender].add(amount);
 
-        assert(int.transfer(msg.sender, amount));
+        assert(intoken.transfer(msg.sender, amount));
 
         TokensCollected(msg.sender, amount);
     }

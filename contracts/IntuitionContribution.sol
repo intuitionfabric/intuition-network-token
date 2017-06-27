@@ -72,7 +72,7 @@ contract IntuitionContribution is Owned, TokenController {
     bool public paused;
 
     modifier initialized() {
-        require(address(SNT) != 0x0);
+        require(address(INT) != 0x0);
         _;
     }
 
@@ -263,7 +263,7 @@ contract IntuitionContribution is Owned, TokenController {
 
         if (_toFund > 0) {
             uint256 tokensGenerated = _toFund.mul(exchangeRate);
-            assert(SNT.generateTokens(_th, tokensGenerated));
+            assert(INT.generateTokens(_th, tokensGenerated));
             destEthDevs.transfer(_toFund);
             NewSale(_th, _toFund, tokensGenerated, _guaranteed);
         }
@@ -273,7 +273,7 @@ contract IntuitionContribution is Owned, TokenController {
             // If the call comes from the Token controller,
             // then we return it to the token Holder.
             // Otherwise we return to the sender.
-            if (msg.sender == address(SNT)) {
+            if (msg.sender == address(INT)) {
                 _th.transfer(toReturn);
             } else {
                 msg.sender.transfer(toReturn);
@@ -394,7 +394,7 @@ contract IntuitionContribution is Owned, TokenController {
             destTokensDevs,
             totalTokens.mul(percentageToDevs).div(percent(100))));
 
-        INT.changeController(sntController);
+        INT.changeController(intController);
 
         Finalized();
     }
